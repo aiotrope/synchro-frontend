@@ -2,6 +2,7 @@
 FSO capstone project frontend application.
 
 Date Started(Backend): 22.1.2023
+
 Date Started(Frontend): 31.1.2023
 
 ## Time Entry
