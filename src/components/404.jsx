@@ -8,8 +8,8 @@ export const NotFound = () => {
     <Container className="wrapper">
       <h2>HTTP 404</h2>
       <p>
-        We don&apos;t have <strong>{location.pathname}</strong> route exist! Please go back to{' '}
-        <Link to={'/'}>home page</Link>
+        We don&apos;t have <strong>{location.pathname}</strong> route exist!
+        Please go back to <Link to={'/'}>home page</Link>
       </p>
     </Container>
   )
