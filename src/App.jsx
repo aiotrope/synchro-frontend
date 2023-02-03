@@ -5,11 +5,12 @@ import { ToastContainer } from 'react-toastify'
 import { TopNav } from './components/TopNav'
 import { RoutesList } from './components/RoutesList'
 import 'react-toastify/dist/ReactToastify.css'
+import { CommonProvider } from './contexts/Common'
 import './_App.scss'
 
 const App = () => {
   return (
-    <>
+    <CommonProvider>
       <header>
         <TopNav />
       </header>
@@ -19,7 +20,7 @@ const App = () => {
           <RoutesList />
         </main>
       </Container>
-    </>
+    </CommonProvider>
   )
 }
 

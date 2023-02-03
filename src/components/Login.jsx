@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import * as yup from 'yup'
@@ -10,14 +10,12 @@ import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
-//import Container from 'react-bootstrap/Container'
 import Stack from 'react-bootstrap/Stack'
-//import Col from 'react-bootstrap/Col'
-//import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { toast } from 'react-toastify'
 
 import { authService } from '../services/auth'
+import { useCommon } from '../contexts/Common'
 
 const schema = yup
   .object({
@@ -27,10 +25,15 @@ const schema = yup
   .required()
 
 export const Login = () => {
+  const queryClient = useQueryClient()
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: authService.setAuthTokens,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['googleUrl'] })
+    },
   })
   const navigate = useNavigate()
+  const { googleLoginUrl } = useCommon()
 
   const {
     register,
@@ -68,7 +71,6 @@ export const Login = () => {
       </Spinner>
     )
   }
-
   return (
     <Stack className="col-md-5 mx-auto">
       <h2>Login to your account</h2>
@@ -124,11 +126,13 @@ export const Login = () => {
       <div className="text-center mt-2">
         <strong>OR</strong>
       </div>
-      <div className="d-grid mt-1">
-        <Button variant="outline-primary" size="lg">
-          Login to Google
-        </Button>
-      </div>
+      <a href={googleLoginUrl} target="_blank" rel="noreferrer">
+        <div className="d-grid mt-1">
+          <Button variant="outline-primary" size="lg">
+            Login to Google
+          </Button>
+        </div>
+      </a>
     </Stack>
   )
 }

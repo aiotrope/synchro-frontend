@@ -1,11 +1,12 @@
 import axios from 'axios'
+import { toast } from 'react-toastify'
+
 import { config } from '../config/config'
 
 const http = axios.create({
   baseURL: config.base_url,
   headers: {
     'Content-Type': 'application/json',
-    //timeout: 15000,
   },
 })
 
@@ -31,9 +32,23 @@ const getRefreshToken = () => {
   if (refresh_token) return refresh_token
 }
 
+const getAuthorizationUrl = async () => {
+  try {
+    const response = await http.get(
+      `/auth/o/google-oauth2/?redirect_uri=${config.base_url}/api/social-credentials/`
+    )
+    if (response) {
+      return response
+    }
+  } catch (error) {
+    toast.error(`Error: ${error.message}`)
+  }
+}
+
 export const authService = {
   setAuthTokens,
   getAuthTokens,
   getAccessToken,
   getRefreshToken,
+  getAuthorizationUrl,
 }
