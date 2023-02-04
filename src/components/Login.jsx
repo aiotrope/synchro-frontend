@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useGoogleLogin } from '@react-oauth/google'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -55,6 +56,12 @@ export const Login = () => {
     }
   }
 
+  const googleLoginBtn = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: (codeResponse) => console.log(codeResponse),
+    onError: (error) => console.error('Login Failed:', error),
+  })
+
   if (isLoading) {
     return (
       <Spinner
@@ -71,6 +78,7 @@ export const Login = () => {
       </Spinner>
     )
   }
+
   return (
     <Stack className="col-md-5 mx-auto">
       <h2>Login to your account</h2>
@@ -133,6 +141,15 @@ export const Login = () => {
           </Button>
         </div>
       </a>
+      <div className="d-grid mt-1">
+        <Button
+          variant="outline-primary"
+          size="lg"
+          onClick={() => googleLoginBtn()}
+        >
+          Signin to Google
+        </Button>
+      </div>
     </Stack>
   )
 }

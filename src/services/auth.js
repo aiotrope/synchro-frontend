@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-import { config } from '../config/config'
+import { config } from '../utils/config/config'
 
 const http = axios.create({
   baseURL: config.base_url,
